@@ -248,7 +248,7 @@ router.patch("/updpateuserphoto", async (req, res) => {
 });
 
 //Patch balance admin
-router.patch("/sale/:id/:type/:balance", async (req, res) => {
+router.patch("/sale/:id/:type/:balance/:userid", async (req, res) => {
   try {
     if (req.params.type === "load") {
       const data = await saleScheme.updateOne(
@@ -256,30 +256,60 @@ router.patch("/sale/:id/:type/:balance", async (req, res) => {
           uid: req.params.id,
         },
         {
-          $inc: { load_balance: req.params.balance },
+          $inc: { load_balance: -req.params.balance },
         }
       );
-      res.send(data);
+      if (data) {
+        const isdata = await saleScheme.updateOne(
+          {
+            uid: req.params.userid,
+          },
+          {
+            $inc: { load_balance: req.params.balance },
+          }
+        );
+        res.send(isdata);
+      }
     } else if (req.params.type === "simcard") {
       const data = await saleScheme.updateOne(
         {
           uid: req.params.id,
         },
         {
-          $inc: { simcard_balance: req.params.balance },
+          $inc: { simcard_balance: -req.params.balance },
         }
       );
-      res.send(data);
+      if (data) {
+        const isdata = await saleScheme.updateOne(
+          {
+            uid: req.params.userid,
+          },
+          {
+            $inc: { simcard_balance: req.params.balance },
+          }
+        );
+        res.send(isdata);
+      }
     } else if (req.params.type === "pocketwifi") {
       const data = await saleScheme.updateOne(
         {
           uid: req.params.id,
         },
         {
-          $inc: { pocketwifi_balance: req.params.balance },
+          $inc: { pocketwifi_balance: -req.params.balance },
         }
       );
-      res.send(data);
+      if (data) {
+        const isdata = await saleScheme.updateOne(
+          {
+            uid: req.params.userid,
+          },
+          {
+            $inc: { pocketwifi_balance: req.params.balance },
+          }
+        );
+        res.send(isdata);
+      }
     } else {
       res.send("Type wrong");
     }
@@ -405,14 +435,5 @@ router.post("/customerpocsim", async (req, res) => {
     res.status(400).send(err);
   }
 });
-
-// router.delete("/delete/:dataID", async (req, res) => {
-//   try {
-//     const data = await User.deleteOne({ _id: req.params.dataID });
-//     res.send(data);
-//   } catch (err) {
-//     res.status(400).send(err);
-//   }
-// });
 
 module.exports = router;
