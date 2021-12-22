@@ -251,7 +251,7 @@ router.patch("/updpateuserphoto", async (req, res) => {
 router.patch("/sale/:id/:type/:balance/:userid", async (req, res) => {
   try {
     if (req.params.type === "load") {
-      const data = await saleScheme.updateOne(
+      await saleScheme.updateOne(
         {
           uid: req.params.id,
         },
@@ -259,19 +259,18 @@ router.patch("/sale/:id/:type/:balance/:userid", async (req, res) => {
           $inc: { load_balance: req.params.balance },
         }
       );
-      if (data) {
-        const isdata = await saleScheme.updateOne(
-          {
-            uid: req.params.userid,
-          },
-          {
-            $inc: { load_balance: -req.params.balance },
-          }
-        );
-        res.send(isdata);
-      }
+
+      await saleScheme.updateOne(
+        {
+          uid: req.params.userid,
+        },
+        {
+          $inc: { load_balance: -req.params.balance },
+        }
+      );
+      res.send({ message: "OK" });
     } else if (req.params.type === "simcard") {
-      const data = await saleScheme.updateOne(
+      await saleScheme.updateOne(
         {
           uid: req.params.id,
         },
@@ -279,19 +278,19 @@ router.patch("/sale/:id/:type/:balance/:userid", async (req, res) => {
           $inc: { simcard_balance: req.params.balance },
         }
       );
-      if (data) {
-        const isdata = await saleScheme.updateOne(
-          {
-            uid: req.params.userid,
-          },
-          {
-            $inc: { simcard_balance: -req.params.balance },
-          }
-        );
-        res.send(isdata);
-      }
+
+      await saleScheme.updateOne(
+        {
+          uid: req.params.userid,
+        },
+        {
+          $inc: { simcard_balance: -req.params.balance },
+        }
+      );
+
+      res.send({ message: "OK" });
     } else if (req.params.type === "pocketwifi") {
-      const data = await saleScheme.updateOne(
+      await saleScheme.updateOne(
         {
           uid: req.params.id,
         },
@@ -299,17 +298,17 @@ router.patch("/sale/:id/:type/:balance/:userid", async (req, res) => {
           $inc: { pocketwifi_balance: req.params.balance },
         }
       );
-      if (data) {
-        const isdata = await saleScheme.updateOne(
-          {
-            uid: req.params.userid,
-          },
-          {
-            $inc: { pocketwifi_balance: -req.params.balance },
-          }
-        );
-        res.send(isdata);
-      }
+
+      await saleScheme.updateOne(
+        {
+          uid: req.params.userid,
+        },
+        {
+          $inc: { pocketwifi_balance: -req.params.balance },
+        }
+      );
+
+      res.send({ message: "OK" });
     } else {
       res.send("Type wrong");
     }
