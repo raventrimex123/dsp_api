@@ -256,7 +256,7 @@ router.patch("/sale/:id/:type/:balance/:userid", async (req, res) => {
           uid: req.params.id,
         },
         {
-          $inc: { load_balance: -req.params.balance },
+          $inc: { load_balance: req.params.balance },
         }
       );
       if (data) {
@@ -265,7 +265,7 @@ router.patch("/sale/:id/:type/:balance/:userid", async (req, res) => {
             uid: req.params.userid,
           },
           {
-            $inc: { load_balance: req.params.balance },
+            $inc: { load_balance: -req.params.balance },
           }
         );
         res.send(isdata);
@@ -276,7 +276,7 @@ router.patch("/sale/:id/:type/:balance/:userid", async (req, res) => {
           uid: req.params.id,
         },
         {
-          $inc: { simcard_balance: -req.params.balance },
+          $inc: { simcard_balance: req.params.balance },
         }
       );
       if (data) {
@@ -285,7 +285,7 @@ router.patch("/sale/:id/:type/:balance/:userid", async (req, res) => {
             uid: req.params.userid,
           },
           {
-            $inc: { simcard_balance: req.params.balance },
+            $inc: { simcard_balance: -req.params.balance },
           }
         );
         res.send(isdata);
@@ -296,7 +296,7 @@ router.patch("/sale/:id/:type/:balance/:userid", async (req, res) => {
           uid: req.params.id,
         },
         {
-          $inc: { pocketwifi_balance: -req.params.balance },
+          $inc: { pocketwifi_balance: req.params.balance },
         }
       );
       if (data) {
@@ -305,7 +305,7 @@ router.patch("/sale/:id/:type/:balance/:userid", async (req, res) => {
             uid: req.params.userid,
           },
           {
-            $inc: { pocketwifi_balance: req.params.balance },
+            $inc: { pocketwifi_balance: -req.params.balance },
           }
         );
         res.send(isdata);
